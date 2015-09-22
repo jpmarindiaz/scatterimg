@@ -1,0 +1,137 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js">
+</script>
+<svg id="wufoo-x1opdqvm14abn3y" width="100%" height="100%">
+</svg>
+<style type="text/css">
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #4bb1b9;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+    display: none;
+}
+
+.labels {
+    font-family: sans-serif;
+    font-size: 18px;
+    fill: #225458;
+}
+</style>
+<script type="text/javascript">
+var svg = d3.select("svg")
+
+
+var padding = 40;
+
+
+var cx = 100;
+var radius = 35;
+
+var yScale = d3.scale.linear().domain([0, 100])
+    .range([8, 377]);
+
+var d = [{
+    id: "a",
+    label: "Carlos",
+    cy: 9,
+    cx: cx,
+    radius: radius,
+    imageUrl: "http://www.randommonkey.io/img/monkey-face-purple.png"
+}, {
+    id: "b",
+    label: "Juan",
+    cy: 60,
+    cx: cx,
+    radius: radius,
+    imageUrl: "https://dl.dropboxusercontent.com/u/19954023/marvel_force_chart_img/top_spiderman.png"
+}, {
+    id: "c",
+    label: "Yo",
+    cy: 79,
+    cx: cx,
+    radius: radius,
+    imageUrl: "http://www.randommonkey.io/img/monkey-face-purple.png"
+}, {
+    id: "d",
+    label: "Todos",
+    cy: 100,
+    cx: cx,
+    radius: radius,
+    imageUrl: "http://www.randommonkey.io/img/monkey-face-purple.png"
+}];
+
+
+var circleGroup = svg.append("g");
+
+
+circleGroup.selectAll("circle")
+    .data(d)
+    .enter()
+    .append('defs')
+    .append('pattern')
+    .attr('id', function(d) {
+        return (d.id);
+    })
+    .attr('width', 1)
+    .attr('height', 1)
+    .attr('patternContentUnits', 'objectBoundingBox')
+    .append("svg:image")
+    .attr("xlink:xlink:href", function(d) {
+        return (d.imageUrl);
+    })
+    .attr("height", 1)
+    .attr("width", 1)
+    .attr("preserveAspectRatio", "slice")
+
+
+var circles = circleGroup.selectAll("circle")
+    .data(d)
+    .enter()
+    .append("circle");
+
+var circleAttributes = circles
+    .attr("cx", function(d) {
+        return d.cx;
+    })
+    .attr("cy", function(d) {
+        return yScale(d.cy);
+    })
+    .attr("r", function(d) {
+        return d.radius;
+    })
+    .style("fill", function(d) {
+        return "url(#" + d.id + ")"
+    });
+
+
+var labels = svg.selectAll("text")
+    .data(d)
+    .enter()
+    .append("text")
+    .text(function(d) {
+        return d.label;
+    })
+    .attr("x", function(d) {
+        return d.cx + d.radius + 10;
+    })
+    .attr("y", function(d) {
+        return yScale(d.cy);
+    })
+    .attr("class", "labels");
+
+
+var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient("left")
+    .ticks(5);
+
+svg.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(" + padding + ",0)")
+    .call(yAxis)
+</script>

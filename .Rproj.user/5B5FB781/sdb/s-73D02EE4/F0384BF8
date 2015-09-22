@@ -1,0 +1,17 @@
+{
+    "contents" : "library(devtools)\nload_all()\ndocument()\ndevtools::install()\n\nlibrary(dplyr)\nlibrary(scatterimg)\n\nd <- read.csv(system.file(\"data/tctl.csv\",package=\"scatterimg\"))\nd <- arrange(d,position)\nx <- d$position\nm <- length(x)-3\nlength(pretty(x,length(x)))\n\npretty(x,n=10,shrink =10)\n\n\nx <- d$position\nx <- (x - min(x))/max(x - min(x))\n\nmd <- min(diff(x))\nx2 <- x * mindist/md\n\n\nhist(diff(x2))\n\nmindist <- 20\n\n\n\n\n\nscatterimg(d)\n\nlibrary(scales)\n\n\npretty(x2,n=length(x2)-1)\n\n\n##\n\nd <- read.csv(system.file(\"data/sample.csv\",package = \"tableize\"),\n              stringsAsFactors = FALSE)\ntableize(d, rowLabelCol = \"firstName\",fixedCols = c(\"age\"))\n\n\ntableize(d, selectedRows = c(\"David\",\"Juan\"))\ntableize(d, selectedCols = c(\"age\"), placeholderCol = \"Col\")\n\n\nfixedCols <- c(\"lastName\",\"firstName\")\ntableize(d, fixedCols, placeholderRow = \"Seleccione cualidades para filtrar\", selectedRows = \"Juan\")\n\nfixedRows <- c(\"Juan\")\ntableize(d, fixedRows = fixedRows)\n\nfixedRows <- c(\"Pepa\")\ntableize(d, fixedRows = fixedRows)\n\nheader <- c(\"NOMBRE\",\"<h3>Apellido</h3>\",\"Color\",\"<small style={color:blue !important}>edad</small>\")\ntableize(d, header = header)\n\ntableize\n\n\nnames(d)\nrowLabelCol <- \"color\"\nfixedRows <- c(\"yellow\")\ntableize(d,fixedCols = fixedCols,rowLabelCol = rowLabelCol,fixedRows =  fixedRows)\n\nnames(d)\nheader <- c(\"NOMBRE\",\"<h3>Apellido<h/3>\",\"Color\",\"<p style={color:blue}>Edad</p>\")\ntableize(d,fixedCols = fixedCols,rowLabelCol = rowLabelCol,fixedRows =  fixedRows,header = header)\n\n\n##\n\nd <- read.csv(system.file(\"data/comparacion-programas.csv\",package = \"tableize\"), stringsAsFactors = FALSE)\nnames(d) <- gsub(\".\",\" \", names(d), fixed = TRUE)\ntableize(d)\n\n##\n\nd <- mtcars\nd[,1] <- row.names(mtcars)\nrow.names(d) <- NULL\n\nfixedCols <- c(\"mpg\",\"cyl\",\"disp\",\"hp\")\nrowLabelCol <- \"mpg\"\nfixedRows <- c(\"Valiant\",\"Merc 240D\")\ntableize(d,fixedCols = fixedCols,rowLabelCol = rowLabelCol,fixedRows =  fixedRows)\n\ntableize(d,fixedCols = fixedCols,rowLabelCol = rowLabelCol,fixedRows =  fixedRows,\n         selectRowsText = \"Filas\", selectColsText = \"COLs\")\n\n\ntableize(d,fixedCols = fixedCols,rowLabelCol = rowLabelCol,fixedRows =  fixedRows, theme = \"blank\", customCSS = \"#controls{background-color:#ccc}\")\n\n\n\n\n\n\n\n\n\n\n",
+    "created" : 1442863020961.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3821933754",
+    "id" : "F0384BF8",
+    "lastKnownWriteTime" : 1442888069,
+    "path" : "~/jprepo/scatterimg/inst/00.R",
+    "project_path" : "inst/00.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

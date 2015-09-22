@@ -1,0 +1,17 @@
+{
+    "contents" : "library(devtools)\nload_all()\ndocument()\ndevtools::install()\n\n\nlibrary(circleRanks)\n\n##\n\nd <- read.csv(system.file(\"data/sample.csv\",package = \"tableize\"),\n              stringsAsFactors = FALSE)\ntableize(d, rowLabelCol = \"firstName\",fixedCols = c(\"age\"))\n\n\ntableize(d, selectedRows = c(\"David\",\"Juan\"))\ntableize(d, selectedCols = c(\"age\"), placeholderCol = \"Col\")\n\n\nfixedCols <- c(\"lastName\",\"firstName\")\ntableize(d, fixedCols, placeholderRow = \"Seleccione cualidades para filtrar\", selectedRows = \"Juan\")\n\nfixedRows <- c(\"Juan\")\ntableize(d, fixedRows = fixedRows)\n\nfixedRows <- c(\"Pepa\")\ntableize(d, fixedRows = fixedRows)\n\nheader <- c(\"NOMBRE\",\"<h3>Apellido</h3>\",\"Color\",\"<small style={color:blue !important}>edad</small>\")\ntableize(d, header = header)\n\ntableize\n\n\nnames(d)\nrowLabelCol <- \"color\"\nfixedRows <- c(\"yellow\")\ntableize(d,fixedCols = fixedCols,rowLabelCol = rowLabelCol,fixedRows =  fixedRows)\n\nnames(d)\nheader <- c(\"NOMBRE\",\"<h3>Apellido<h/3>\",\"Color\",\"<p style={color:blue}>Edad</p>\")\ntableize(d,fixedCols = fixedCols,rowLabelCol = rowLabelCol,fixedRows =  fixedRows,header = header)\n\n\n##\n\nd <- read.csv(system.file(\"data/comparacion-programas.csv\",package = \"tableize\"), stringsAsFactors = FALSE)\nnames(d) <- gsub(\".\",\" \", names(d), fixed = TRUE)\ntableize(d)\n\n##\n\nd <- mtcars\nd[,1] <- row.names(mtcars)\nrow.names(d) <- NULL\n\nfixedCols <- c(\"mpg\",\"cyl\",\"disp\",\"hp\")\nrowLabelCol <- \"mpg\"\nfixedRows <- c(\"Valiant\",\"Merc 240D\")\ntableize(d,fixedCols = fixedCols,rowLabelCol = rowLabelCol,fixedRows =  fixedRows)\n\ntableize(d,fixedCols = fixedCols,rowLabelCol = rowLabelCol,fixedRows =  fixedRows,\n         selectRowsText = \"Filas\", selectColsText = \"COLs\")\n\n\ntableize(d,fixedCols = fixedCols,rowLabelCol = rowLabelCol,fixedRows =  fixedRows, theme = \"blank\", customCSS = \"#controls{background-color:#ccc}\")\n\n\n\n\n\n\n\n\n\n\n",
+    "created" : 1442861919000.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1917216519",
+    "id" : "3ACB513B",
+    "lastKnownWriteTime" : 1442862310,
+    "path" : "~/jprepo/circleRank/inst/00.R",
+    "project_path" : "inst/00.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

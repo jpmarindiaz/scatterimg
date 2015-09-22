@@ -1,0 +1,17 @@
+{
+    "contents" : "Package: circleRank\nTitle: Htmlwidget that uses selectize to filter rows and columns in table.\nVersion: 0.0.1\nAuthors@R: person(\"Juan Pablo\", \"Marin Diaz\", email = \"jpmarindiaz@gmail.com\", role = c(\"aut\", \"cre\"))\nDescription: Htmlwidget to plot circles with background images with y axis.\nDepends: R (>= 3.2.1), htmlwidgets\nLicense: MIT\nLazyData: true\n",
+    "created" : 1442860512961.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3897742976",
+    "id" : "B98F5143",
+    "lastKnownWriteTime" : 1442860558,
+    "path" : "~/jprepo/circleRank/DESCRIPTION",
+    "project_path" : "DESCRIPTION",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "dcf"
+}

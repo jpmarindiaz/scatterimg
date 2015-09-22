@@ -1,0 +1,8 @@
+Package: scatterimg
+Title: Htmlwidget that uses selectize to filter rows and columns in table.
+Version: 0.0.1
+Authors@R: person("Juan Pablo", "Marin Diaz", email = "jpmarindiaz@gmail.com", role = c("aut", "cre"))
+Description: Htmlwidget to plot circles with background images with y axis.
+Depends: R (>= 3.2), htmlwidgets
+License: MIT
+LazyData: true

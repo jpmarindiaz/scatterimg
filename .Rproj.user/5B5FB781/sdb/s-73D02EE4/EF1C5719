@@ -1,0 +1,17 @@
+{
+    "contents" : "#' <Add Title>\n#'\n#' <Add Description>\n#'\n#' @import htmlwidgets\n#'\n#' @export\nscatterimg <- function(d, fixedCols = NULL, rowLabelCol =  NULL,fixedRows = NULL,\n                     header = NULL, theme = \"basic\", customCSS = NULL,\n                     width = NULL, height = NULL) {\n\n  style <- getStyle(theme = theme, customCSS = customCSS)\n\n\n  data <- prepareData(d)\n\n  # forward options using x\n  x = list(\n    data = data,\n    style = style\n  )\n\n  # create widget\n  htmlwidgets::createWidget(\n    name = 'scatterimg',\n    x,\n    width = width,\n    height = height,\n    sizingPolicy = htmlwidgets::sizingPolicy(\n      browser.fill = TRUE\n    ),\n    package = 'scatterimg'\n  )\n}\n\n#' Widget output function for use in Shiny\n#'\n#' @export\nscatterimgOutput <- function(outputId, width = '100%', height = '400px'){\n  shinyWidgetOutput(outputId, 'scatterimg', width, height, package = 'scatterimg')\n}\n\n#' Widget render function for use in Shiny\n#'\n#' @export\nrenderScatterimg <- function(expr, env = parent.frame(), quoted = FALSE) {\n  if (!quoted) { expr <- substitute(expr) } # force quoted\n  shinyRenderWidget(expr, scatterimgOutput, env, quoted = TRUE)\n}\n",
+    "created" : 1442863089987.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3479563800",
+    "id" : "EF1C5719",
+    "lastKnownWriteTime" : 1442884762,
+    "path" : "~/jprepo/scatterimg/R/scatterimg.R",
+    "project_path" : "R/scatterimg.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

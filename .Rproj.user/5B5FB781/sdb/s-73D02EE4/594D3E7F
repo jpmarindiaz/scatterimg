@@ -1,0 +1,17 @@
+{
+    "contents" : "\n\nprepareData <- function(d, radius = NULL, cx = NULL){\n\n  radius <- radius %||% 20\n  cx <- cx %||% 100\n  data <- d\n  data$label <- d[,1]\n  data$cy <- d[,2]\n  data$cx <- cx\n  data$id <- paste0(\"a\",1:nrow(d))\n  data$radius <- 35\n  if(is.null(d$imageUrl))\n    data$imageUrl <- \"http://res.cloudinary.com/randommonkey/image/upload/c_scale,e_auto_brightness,r_30,w_40/a_0/v1442865905/NO-IMAGE-AVAILABLE2_fk041v.png\"\n  else\n    data$imageUrl <- d$imageUrl\n  data\n}\n\n\ngetStyle <- function(theme = NULL, customCSS = \"\"){\n  theme <- theme %||% \"basic\"\n  if(theme == \"blank\")\n    theme <- \"\"\n  else{\n    theme <- paste0(theme,\".css\")\n    filePath <- file.path(system.file(\"styles\",package=\"scatterimg\"),theme)\n    theme <- paste0(readLines(filePath),collapse=\"\")\n  }\n  style <- paste(theme,customCSS,\"\\n\")\n  #message(style)\n  style\n}\n\n\ngetControls <- function(d,fixedCols,rowLabelCol,fixedRows,\n                        selectRowsText = NULL, selectColsText = NULL,\n                        selectedRows = NULL, selectedCols = NULL){\n\n  controlTpl <- \"controls\"\n  name <- paste0(controlTpl,\".html\")\n  filePath <- file.path(system.file(\"controls\",package=\"tableize\"),name)\n  tpl <- paste0(readLines(filePath),collapse=\"\\n\")\n\n  selectRowsText = selectRowsText %||% 'Seleccione filas'\n  selectColsText = selectColsText %||% 'Seleccione columnas'\n\n\n  optionColTpl <- '<option value=\"{{colName}}\" {{selected}}>{{colName}}</option>'\n  filterCols <- names(d)[which(!names(d) %in% c(rowLabelCol,fixedCols))]\n  selectedCols <- selectedCols %||% filterCols\n  lcol <- lapply(filterCols,function(col){\n    selected <- \"\"\n    if(col %in% selectedCols) selected <- \"selected\"\n    list(colName = col,selected = selected)\n  })\n  colOptions <- lapply(lcol,function(col){\n    list(optionHtml = whisker.render(optionColTpl,col))\n  })\n\n  optionRowTpl <- '<option value=\"{{rowName}}\" {{selected}}>{{rowName}}</option>'\n  filterRows <-  d[,rowLabelCol]\n  filterRows <- filterRows[!filterRows %in% fixedRows]\n  selectedRows <- selectedRows %||% filterRows\n  lrow <- lapply(filterRows,function(row){\n    selected <- \"\"\n    if(row %in% selectedRows) selected <- \"selected\"\n    list(rowName = row,selected = selected)\n  })\n  rowOptions <- lapply(lrow,function(row){\n    list(optionHtml = whisker.render(optionRowTpl,row))\n  })\n\n  #   options = list(\n  #     list(optionHtml = '<option value=\"lastName\" selected>Replaceeeed</option>')\n  #   )\n\n  tplData <- list(selectRowsText = selectRowsText,\n                  selectColsText = selectColsText,\n                  colOptions = colOptions,\n                  rowOptions = rowOptions)\n\n  controlsHtml <- whisker.render(tpl,tplData)\n  #cat(controlsHtml)\n  controlsHtml\n}\n",
+    "created" : 1442863345970.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4186044123",
+    "id" : "594D3E7F",
+    "lastKnownWriteTime" : 1442884729,
+    "path" : "~/jprepo/scatterimg/R/helpers.R",
+    "project_path" : "R/helpers.R",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
