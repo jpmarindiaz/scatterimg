@@ -134,7 +134,7 @@ HTMLWidgets.widget({
                 return d.cx + d.radius + 10;
             })
             .attr("y", function(d) {
-                return yScale(d.cy);
+                return yScale(d.cy) + 5;
             })
             .attr("class", "labels");
 

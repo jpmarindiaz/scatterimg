@@ -1,6 +1,6 @@
 
 
-prepareData <- function(d, radius = NULL, cx = NULL){
+prepareData <- function(d, noOverlap = FALSE, radius = NULL, cx = NULL, noOverlapSpread = 2){
 
   radius <- radius %||% 20
   cx <- cx %||% 100
@@ -9,11 +9,23 @@ prepareData <- function(d, radius = NULL, cx = NULL){
   data$cy <- d[,2]
   data$cx <- cx
   data$id <- paste0("a",1:nrow(d))
-  data$radius <- 35
+  if(is.null(d$radius))
+    data$radius <- radius
   if(is.null(d$imageUrl))
     data$imageUrl <- "http://res.cloudinary.com/randommonkey/image/upload/c_scale,e_auto_brightness,r_30,w_40/a_0/v1442865905/NO-IMAGE-AVAILABLE2_fk041v.png"
   else
     data$imageUrl <- d$imageUrl
+  if(noOverlap){
+    window <- 2*max(data$radius)
+    range <- c(0,nrow(data)*window*noOverlapSpread)
+    v <- data$cy
+    y <- scale_linear(v, range =  range)
+    t <- nonOverlapSpread(y,window = window)
+    t <- scale_linear(domain = t, range =  range)
+    data$cy <- round(t)
+    # back to original scale after nonOverlapping
+    #data$cy <- scale_linear(data$cy, range =  c(min(d$position),max(d$position)))
+  }
   data
 }
 
@@ -33,54 +45,53 @@ getStyle <- function(theme = NULL, customCSS = ""){
 }
 
 
-getControls <- function(d,fixedCols,rowLabelCol,fixedRows,
-                        selectRowsText = NULL, selectColsText = NULL,
-                        selectedRows = NULL, selectedCols = NULL){
 
-  controlTpl <- "controls"
-  name <- paste0(controlTpl,".html")
-  filePath <- file.path(system.file("controls",package="tableize"),name)
-  tpl <- paste0(readLines(filePath),collapse="\n")
-
-  selectRowsText = selectRowsText %||% 'Seleccione filas'
-  selectColsText = selectColsText %||% 'Seleccione columnas'
-
-
-  optionColTpl <- '<option value="{{colName}}" {{selected}}>{{colName}}</option>'
-  filterCols <- names(d)[which(!names(d) %in% c(rowLabelCol,fixedCols))]
-  selectedCols <- selectedCols %||% filterCols
-  lcol <- lapply(filterCols,function(col){
-    selected <- ""
-    if(col %in% selectedCols) selected <- "selected"
-    list(colName = col,selected = selected)
-  })
-  colOptions <- lapply(lcol,function(col){
-    list(optionHtml = whisker.render(optionColTpl,col))
-  })
-
-  optionRowTpl <- '<option value="{{rowName}}" {{selected}}>{{rowName}}</option>'
-  filterRows <-  d[,rowLabelCol]
-  filterRows <- filterRows[!filterRows %in% fixedRows]
-  selectedRows <- selectedRows %||% filterRows
-  lrow <- lapply(filterRows,function(row){
-    selected <- ""
-    if(row %in% selectedRows) selected <- "selected"
-    list(rowName = row,selected = selected)
-  })
-  rowOptions <- lapply(lrow,function(row){
-    list(optionHtml = whisker.render(optionRowTpl,row))
-  })
-
-  #   options = list(
-  #     list(optionHtml = '<option value="lastName" selected>Replaceeeed</option>')
-  #   )
-
-  tplData <- list(selectRowsText = selectRowsText,
-                  selectColsText = selectColsText,
-                  colOptions = colOptions,
-                  rowOptions = rowOptions)
-
-  controlsHtml <- whisker.render(tpl,tplData)
-  #cat(controlsHtml)
-  controlsHtml
+### Scales
+scale_linear <- function(domain,range){
+  f <- function(x){
+    m <- (range[2] - range[1])/(max(domain) - min(domain))
+    b <- range[2] - m*max(domain)
+    x*m + b
+  }
+  f(domain)
 }
+
+
+#
+nonOverlapSpread <- function(y, window, maxIte = 100){
+  x <- y
+  for(i in 1:maxIte){
+    #x <- f(v)
+    x <- sort(x)
+    di <- diff(x)
+    overlapping <- which(diff(x) < window)
+    x2 <- x
+    l <- lapply(overlapping,function(o){
+      ep <- window/100
+      if(o != overlapping[1]){
+        stepLeft <- (window - min(di[o-1:o]) + ep)/2
+      }else{
+        stepLeft <- (window - di[o] + ep)/2
+      }
+      x2[o] <<- x[o] - stepLeft
+      if(o != overlapping[length(overlapping)]){
+        stepRight <- (window -  min(di[o:(o+1)])+ ep)/2
+      }else{
+        stepRight <- (window -  di[o] + ep)/2
+      }
+      x2[o+1] <<- x[o+1] + stepRight
+      x2
+    })
+    #str(l)
+    length(overlapping)
+    if(length(overlapping) == 0) return(x)
+    x <- l[[length(l)]]
+#     overlapping <- which(diff(x) < window)
+#     diff(x)
+#     overlapping
+  }
+  x
+}
+
+
+

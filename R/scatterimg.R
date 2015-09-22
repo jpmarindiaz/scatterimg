@@ -5,14 +5,13 @@
 #' @import htmlwidgets
 #'
 #' @export
-scatterimg <- function(d, fixedCols = NULL, rowLabelCol =  NULL,fixedRows = NULL,
-                     header = NULL, theme = "basic", customCSS = NULL,
+scatterimg <- function(d, noOverlap = FALSE, theme = "basic", customCSS = NULL, noOverlapSpread = NULL,
                      width = NULL, height = NULL) {
 
   style <- getStyle(theme = theme, customCSS = customCSS)
 
 
-  data <- prepareData(d)
+  data <- prepareData(d, noOverlap = noOverlap, noOverlapSpread = noOverlapSpread)
 
   # forward options using x
   x = list(
