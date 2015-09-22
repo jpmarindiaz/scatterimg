@@ -13,7 +13,7 @@ prepareData <- function(d, noOverlap = FALSE, radius = NULL, cx = NULL, noOverla
   if(is.null(d$radius))
     data$radius <- radius
   if(is.null(d$imageUrl))
-    data$imageUrl <- "http://res.cloudinary.com/randommonkey/image/upload/c_scale,e_auto_brightness,r_30,w_40/a_0/v1442865905/NO-IMAGE-AVAILABLE2_fk041v.png"
+    data$imageUrl <- "https://res.cloudinary.com/randommonkey/image/upload/c_scale,e_auto_brightness,r_30,w_40/a_0/v1442865905/NO-IMAGE-AVAILABLE2_fk041v.png"
   else
     data$imageUrl <- d$imageUrl
   if(noOverlap){
