@@ -1,7 +1,8 @@
 
 
-prepareData <- function(d, noOverlap = FALSE, radius = NULL, cx = NULL, noOverlapSpread = 2){
-
+prepareData <- function(d, noOverlap = FALSE, radius = NULL, cx = NULL, noOverlapSpread = NULL){
+  d <- d[with(d, order(d[,2])), ]
+  noOverlapSpread <- noOverlapSpread %||% 2
   radius <- radius %||% 20
   cx <- cx %||% 100
   data <- d

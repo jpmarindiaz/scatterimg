@@ -3,22 +3,36 @@ load_all()
 document()
 devtools::install()
 
-library(dplyr)
 library(scatterimg)
 
 d <- read.csv(system.file("data/tctl.csv",package="scatterimg"))
-d <- arrange(d,position)
-v <- d$position
-names(v) <- d$name
 
 
-d$radius <- 20
-scatterimg(d, noOverlap = TRUE, noOverlapSpread = 1)
+
+d$radius <- 10
+scatterimg(d, noOverlap = TRUE, noOverlapSpread = 2)
+scatterimg(d, noOverlap = TRUE)
 scatterimg(d, noOverlap = TRUE, noOverlapSpread = 1)
 
 scatterimg(d)
 
 
 
-
+# A nice shiny app
+library(shiny)
+app <- shinyApp(
+  ui = bootstrapPage(
+    numericInput("radius","Radius",value=10),
+    scatterimgOutput("viz")
+  ),
+  server = function(input, output) {
+    default <- read.csv(system.file("data/tctl.csv", package = "scatterimg"))
+    output$viz <- renderScatterimg({
+      d <- default
+      d$radius <- input$radius
+      scatterimg(d)
+    })
+  }
+)
+runApp(app)
 
