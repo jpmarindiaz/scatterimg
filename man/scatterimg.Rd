@@ -4,8 +4,9 @@
 \alias{scatterimg}
 \title{<Add Title>}
 \usage{
-scatterimg(d, noOverlap = FALSE, theme = "basic", customCSS = NULL,
-  noOverlapSpread = NULL, width = NULL, height = NULL)
+scatterimg(d, opts = NULL, tooltipOpts = NULL, theme = "basic",
+  customCSS = NULL, noOverlap = FALSE, noOverlapSpread = NULL,
+  width = NULL, height = NULL)
 }
 \description{
 <Add Description>

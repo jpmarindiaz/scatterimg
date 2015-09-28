@@ -1,5 +1,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js">
 </script>
+<script type="text/javascript" src="https://rawgit.com/Caged/d3-tip/master/index.js">
+</script>
 <svg id="wufoo-x1opdqvm14abn3y" width="100%" height="100%">
 </svg>
 <style type="text/css">
@@ -20,6 +22,87 @@
     font-family: sans-serif;
     font-size: 18px;
     fill: #225458;
+}
+
+
+
+.d3-tip {
+    line-height: 1;
+    /*font-weight: bold;*/
+    padding: 12px;
+    background: rgba(150, 150, 150, 0.1);
+    color: #444;
+    border-radius: 2px;
+    border: 1px;
+    pointer-events: none;
+}
+
+
+/* Creates a small triangle extender for the tooltip */
+
+.d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    pointer-events: none;
+}
+
+
+/* Northward tooltips */
+
+.d3-tip.n:after {
+    content: "\25BC";
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+    text-align: center;
+}
+
+
+/* Eastward tooltips */
+
+.d3-tip.e:after {
+    content: "\25C0";
+    margin: -4px 0 0 0;
+    top: 50%;
+    left: -8px;
+}
+
+
+/* Southward tooltips */
+
+.d3-tip.s:after {
+    content: "\25B2";
+    margin: 0 0 1px 0;
+    top: -8px;
+    left: 0;
+    text-align: center;
+}
+
+
+/* Westward tooltips */
+
+.d3-tip.w:after {
+    content: "\25B6";
+    margin: -4px 0 0 -1px;
+    top: 50%;
+    left: 100%;
+}
+
+/*.d3-tip text {
+    fill: #fff;
+    color: red;
+    font-size: 12px;
+    stroke: none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}*/
+
+text.clickable:hover {
+    cursor: pointer;
 }
 </style>
 <script type="text/javascript">
@@ -86,13 +169,40 @@ circleGroup.selectAll("circle")
     })
     .attr("height", 1)
     .attr("width", 1)
-    .attr("preserveAspectRatio", "slice")
+    .attr("preserveAspectRatio", "xMidYMid slice")
+
+
+/* Initialize tooltip */
+tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .html(function(d) {
+        return d.label;
+    })
+    .direction("se")
+    .offset([0, 200]);
+
+/* Invoke the tip in the context of your visualization */
+svg.call(tip)
+
+legend = svg.append('rect')
+    .attr('width', 0)
+    .attr('height', 0)
+    .attr('x', 0)
+    .attr('y', 0)
+    .attr('class', 'legend')
 
 
 var circles = circleGroup.selectAll("circle")
     .data(d)
     .enter()
-    .append("circle");
+    .append("circle")
+    // .on('mouseover', tip.show)
+    // .on('mouseout', tip.hide)
+    .on('mouseout', null)
+    .on('mouseover', function(d) {
+        // tip.show(d, legend.node())
+        null
+    });
 
 var circleAttributes = circles
     .attr("cx", function(d) {
@@ -104,6 +214,7 @@ var circleAttributes = circles
     .attr("r", function(d) {
         return d.radius;
     })
+    .attr('id',function(d){ return d.id + "Circle"})
     .style("fill", function(d) {
         return "url(#" + d.id + ")"
     });
@@ -122,7 +233,12 @@ var labels = svg.selectAll("text")
     .attr("y", function(d) {
         return yScale(d.cy + 5);
     })
-    .attr("class", "labels");
+    .attr("class", "labels")
+    .attr('class', 'clickable')
+    .attr('id',function(d){ return d.id + "Label"})
+    .on('click', function(d) {
+        tip.hide(d).show(d)
+    });
 
 
 var yAxis = d3.svg.axis()
@@ -134,4 +250,15 @@ svg.append("g")
     .attr("class", "axis")
     .attr("transform", "translate(" + padding + ",0)")
     .call(yAxis)
+
+
+
+// svg.selectAll('circle')
+//   .data(d)
+// .enter().append('circle')
+//   .attr('r', function(d, i) { return random2(i) * 10 })
+//   .attr('cx', function(d, i) { return d.cx(i) })
+//   .attr('cy', function(d, i) { return d.cy(i) })
+// .on('mouseover', tip.show)
+// .on('mouseout', tip.hide)
 </script>

@@ -27,14 +27,41 @@ HTMLWidgets.widget({
 
         var svg = d3.select("svg")
 
-
-        var padding = 40;
+        var opts = x.opts;
+        var padding = opts.padding;
         // console.log()
 
         // get the width and height
         // var height = d3.select("svg").attr("height");
-        // var width = el.offsetWidth;
+        var width = el.offsetWidth;
         var height = el.offsetHeight;
+
+
+        // Tooltip
+        var tooltipOpts = x.tooltipOpts;
+        // fixed rectangle to bind tooltip
+        legend = svg.append('rect')
+            .attr('width', 0)
+            .attr('height', 0)
+            .attr('x', width / 2)
+            .attr('y', 0)
+            .attr('class', 'legend')
+        var direction = tooltipOpts.direction;
+        if (direction == 'fixed') {
+            direction = 'se'
+        };
+        /* Initialize tooltip */
+        tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .html(function(d) {
+                return d.tooltip;
+            })
+            .direction(direction)
+            .offset(tooltipOpts.offset);
+
+        /* Invoke the tip in the context of your visualization */
+        svg.call(tip)
+
 
         // var d = [{
         //     id: "a",
@@ -86,6 +113,7 @@ HTMLWidgets.widget({
         circleGroup.selectAll("circle")
             .data(d)
             .enter()
+            .append('g')
             .append('defs')
             .append('pattern')
             .attr('id', function(d) {
@@ -106,7 +134,22 @@ HTMLWidgets.widget({
         var circles = circleGroup.selectAll("circle")
             .data(d)
             .enter()
-            .append("circle");
+            .append("circle")
+            .on('mouseout', function(d) {
+                if (["circle", "circleLabel"].indexOf(tooltipOpts.element) < 0) {
+                    return null
+                }
+                tip.hide(d)
+            })
+            .on('mouseover', function(d) {
+                if (["circle", "circleLabel"].indexOf(tooltipOpts.element) < 0) {
+                    return null
+                }
+                if (tooltipOpts.direction == 'fixed') {
+                    return tip.show(d, legend.node());
+                }
+                tip.show(d)
+            });
 
         var circleAttributes = circles
             .attr("cx", function(d) {
@@ -117,6 +160,9 @@ HTMLWidgets.widget({
             })
             .attr("r", function(d) {
                 return d.radius;
+            })
+            .attr('id', function(d) {
+                return d.id + "Circle"
             })
             .style("fill", function(d) {
                 // return "url(#" + d.id + ")" // Changed to dynamic load base url because of shinyapps deployment issue.
@@ -137,7 +183,25 @@ HTMLWidgets.widget({
             .attr("y", function(d) {
                 return yScale(d.cy) + 5;
             })
-            .attr("class", "labels");
+            .attr("class", "labels")
+            .attr('id', function(d) {
+                return d.id + "Label"
+            })
+            .on('mouseout', function(d) {
+                if (["label", "circleLabel"].indexOf(tooltipOpts.element) < 0) {
+                    return null
+                }
+                tip.hide(d)
+            })
+            .on('mouseover', function(d) {
+                if (["label", "circleLabel"].indexOf(tooltipOpts.element) < 0) {
+                    return null
+                }
+                if (tooltipOpts.direction == 'fixed') {
+                    return tip.show(d, legend.node());
+                }
+                tip.show(d)
+            });;
 
 
         var yAxis = d3.svg.axis()
@@ -149,6 +213,8 @@ HTMLWidgets.widget({
             .attr("class", "axis")
             .attr("transform", "translate(" + padding + ",0)")
             .call(yAxis)
+
+
 
 
     },

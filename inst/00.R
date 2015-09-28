@@ -6,11 +6,17 @@ devtools::install()
 library(scatterimg)
 
 d <- read.csv(system.file("data/tctl.csv",package="scatterimg"))
+d$tooltip <- d$label
+
+tooltipOpts <- list(direction = 'fixed',
+                    offset = c(0,0),
+                    element = 'circleLabel')
+
+d$radius <- 20
 
 
+scatterimg(d, tooltipOpts = tooltipOpts, noOverlap = TRUE, noOverlapSpread = 1.5)
 
-d$radius <- 10
-scatterimg(d, noOverlap = TRUE, noOverlapSpread = 2)
 scatterimg(d, noOverlap = TRUE)
 scatterimg(d, noOverlap = TRUE, noOverlapSpread = 1)
 

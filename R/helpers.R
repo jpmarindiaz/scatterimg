@@ -1,15 +1,21 @@
 
 
-prepareData <- function(d, noOverlap = FALSE, radius = NULL, cx = NULL, noOverlapSpread = NULL){
-  d <- d[with(d, order(d[,2])), ]
+prepareData <- function(d, noOverlap = FALSE, radius = NULL, noOverlapSpread = NULL){
+
+  d <- d[with(d, order(positionY)), ]
   noOverlapSpread <- noOverlapSpread %||% 2
   radius <- radius %||% 20
-  cx <- cx %||% 100
   data <- d
-  data$label <- d[,1]
-  data$cy <- d[,2]
-  data$cx <- cx
+  data$label <- d$label
+  data$cy <- d$positionY
+  if(is.null(d$positionX)){
+    message("using default position x")
+    d$positionX <- 50
+  }
+  data$cx <- d$positionX
   data$id <- paste0("a",1:nrow(d))
+  data$tooltip <- d$tooltip
+
   if(is.null(d$radius))
     data$radius <- radius
   if(is.null(d$imageUrl))
