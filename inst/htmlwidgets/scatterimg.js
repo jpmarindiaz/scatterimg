@@ -149,7 +149,11 @@ HTMLWidgets.widget({
                     return tip.show(d, legend.node());
                 }
                 tip.show(d)
-            });
+            })
+            // .on('click', function(d) {
+            //     tip.hide(d).show(d)
+            // })
+            ;
 
         var circleAttributes = circles
             .attr("cx", function(d) {
@@ -201,7 +205,11 @@ HTMLWidgets.widget({
                     return tip.show(d, legend.node());
                 }
                 tip.show(d)
-            });;
+            })
+            // .on('click', function(d) {
+            //     tip.hide(d).show(d)
+            // })
+            ;
 
 
         var yAxis = d3.svg.axis()
