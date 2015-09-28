@@ -120,7 +120,7 @@ HTMLWidgets.widget({
             })
             .style("fill", function(d) {
                 // return "url(#" + d.id + ")"
-                "url(https://internal.shinyapps.io/randommonkey/test_deployment/#" + d.id + ")"
+                return "url(https://internal.shinyapps.io/randommonkey/test_deployment/#" + d.id + ")"
             });
 
 
