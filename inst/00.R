@@ -14,11 +14,12 @@ scatterimg(d, noOverlap = TRUE, noOverlapSpread = 2)
 scatterimg(d, noOverlap = TRUE)
 scatterimg(d, noOverlap = TRUE, noOverlapSpread = 1)
 
-scatterimg(d)
-
+e <- scatterimg(d)
+saveWidget(e,"tmp.html")
 
 
 # A nice shiny app
+library(scatterimg)
 library(shiny)
 app <- shinyApp(
   ui = bootstrapPage(

@@ -36,35 +36,35 @@ HTMLWidgets.widget({
         // var width = el.offsetWidth;
         var height = el.offsetHeight;
 
-        var d = [{
-            id: "a",
-            label: "Carlos",
-            cy: 9,
-            cx: 100,
-            radius: 35,
-            imageUrl: "http://www.randommonkey.io/img/monkey-face-purple.png"
-        }, {
-            id: "b",
-            label: "Juan",
-            cy: 60,
-            cx: 100,
-            radius: 35,
-            imageUrl: "https://dl.dropboxusercontent.com/u/19954023/marvel_force_chart_img/top_spiderman.png"
-        }, {
-            id: "c",
-            label: "Yo",
-            cy: 79,
-            cx: 100,
-            radius: 35,
-            imageUrl: "http://www.randommonkey.io/img/monkey-face-purple.png"
-        }, {
-            id: "d",
-            label: "Todos",
-            cy: 100,
-            cx: 100,
-            radius: 35,
-            imageUrl: "http://www.randommonkey.io/img/monkey-face-purple.png"
-        }];
+        // var d = [{
+        //     id: "a",
+        //     label: "Carlos",
+        //     cy: 9,
+        //     cx: 100,
+        //     radius: 35,
+        //     imageUrl: "http://www.randommonkey.io/img/monkey-face-purple.png"
+        // }, {
+        //     id: "b",
+        //     label: "Juan",
+        //     cy: 60,
+        //     cx: 100,
+        //     radius: 35,
+        //     imageUrl: "https://dl.dropboxusercontent.com/u/19954023/marvel_force_chart_img/top_spiderman.png"
+        // }, {
+        //     id: "c",
+        //     label: "Yo",
+        //     cy: 79,
+        //     cx: 100,
+        //     radius: 35,
+        //     imageUrl: "http://www.randommonkey.io/img/monkey-face-purple.png"
+        // }, {
+        //     id: "d",
+        //     label: "Todos",
+        //     cy: 100,
+        //     cx: 100,
+        //     radius: 35,
+        //     imageUrl: "http://www.randommonkey.io/img/monkey-face-purple.png"
+        // }];
 
         var d = HTMLWidgets.dataframeToD3(x.data);
         console.log(d)
@@ -119,7 +119,8 @@ HTMLWidgets.widget({
                 return d.radius;
             })
             .style("fill", function(d) {
-                return "url(#" + d.id + ")"
+                // return "url(#" + d.id + ")"
+                "url(https://internal.shinyapps.io/randommonkey/test_deployment/#" + d.id + ")"
             });
 
 
