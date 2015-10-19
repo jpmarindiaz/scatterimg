@@ -37,6 +37,7 @@ app <- shinyApp(
     output$viz <- renderScatterimg({
       d <- default
       d$radius <- input$radius
+      d$tooltip <- d$label
       scatterimg(d)
     })
   }
